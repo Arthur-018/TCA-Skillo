@@ -16,20 +16,16 @@ public class TwelveDataClient {
     private static final String INTERVAL_DAILY = "1day";
     private static final int OUTPUT_SIZE_MONTH = 25;
 
-    // Lista ampliada para 12 símbolos internacionais
-    private static final String[] STOCKS = {"MSFT", "AAPL", "GOOGL", "AMZN", "TSLA", "NVDA", "JPM", "V", "PG", "NFLX", "ADBE", "CSCO"};
+    private static final String[] STOCKS = {"MSFT", "AAPL", "GOOGL", "AMZN", "TSLA"};
 
-    // Pausa de 8 segundos para respeitar o limite de 8 requisições por minuto (Twelve Data DEMO)
     private static final long API_PAUSE_MS = 8000;
 
     public static List<Investment> getInvestments() {
         List<Investment> list = new ArrayList<>();
 
         try {
-            // Requisições duplicadas (quote + time_series) * 12 tickers = 24 chamadas
             for (String symbol : STOCKS) {
 
-                // 1. Busca de Cotação Atual (Endpoint: quote)
                 String quoteURL = BASE_URL + "quote?symbol=" + symbol + "&apikey=" + API_KEY;
                 JSONObject quoteResponse = new JSONObject(readURL(quoteURL, API_PAUSE_MS));
 
@@ -40,7 +36,6 @@ public class TwelveDataClient {
                 double price = quoteResponse.optDouble("close", 0);
                 String name = quoteResponse.optString("name", symbol);
 
-                // 2. Busca de Dados Históricos (Endpoint: time_series)
                 String seriesURL = BASE_URL + "time_series?symbol=" + symbol + "&interval=" + INTERVAL_DAILY + "&outputsize=" + OUTPUT_SIZE_MONTH + "&apikey=" + API_KEY;
                 JSONObject seriesResponse = new JSONObject(readURL(seriesURL, API_PAUSE_MS));
 
@@ -53,7 +48,6 @@ public class TwelveDataClient {
                     price30DaysAgo = historicalData.optDouble("close", 0);
                 }
 
-                // Geração de risco aleatória (entre 0.0 e 5.0)
                 float risk = (float) (Math.random() * 5.0);
                 String url = "https://twelvedata.com/quotes/" + symbol;
 
@@ -68,7 +62,6 @@ public class TwelveDataClient {
     }
 
     private static String readURL(String urlStr, long sleepTime) throws Exception {
-        // Pausa OBRIGATÓRIA para evitar limite
         Thread.sleep(sleepTime);
 
         HttpURLConnection conn = (HttpURLConnection) new URL(urlStr).openConnection();

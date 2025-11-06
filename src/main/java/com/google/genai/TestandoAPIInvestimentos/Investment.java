@@ -8,7 +8,7 @@ public record Investment(
         double open,
         double high,
         double price,
-        double price30DaysAgo, // Essencial
+        double price30DaysAgo, //MUITO importante para calcular o rendimento mensal NÂO MUDE, SÓ SE NECESSÀRIO
         String url
 ) {
     @Override
