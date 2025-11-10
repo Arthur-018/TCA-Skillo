@@ -1,4 +1,4 @@
-package com.google.genai.TestandoAPIInvestimentos;
+package com.google.genai.Financas.TestandoAPIInvestimentos;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package com.google.genai.TestandoAPIInvestimentos;
+package com.google.genai.Financas.TestandoAPIInvestimentos;
 
 import java.util.Comparator;
 import java.util.List;
@@ -103,7 +103,7 @@ public class Main {
             System.out.println("═══════════════════════════════════════════════");
             System.out.println("Aguarde... Buscando dados de ativos Nacionais (B3) e Internacionais.");
 
-            List<Investment> nacional = BrapiClient.getInvestments();
+            List<Investment> nacional = com.google.genai.TestandoAPIInvestimentos.BrapiClient.getInvestments();
             List<Investment> internacional = TwelveDataClient.getStocks();
 
             List<Investment> filteredNacional = nacional.stream()

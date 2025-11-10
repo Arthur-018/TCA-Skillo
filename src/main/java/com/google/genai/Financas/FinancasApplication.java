@@ -1,13 +1,13 @@
-package com.google.genai;
+package com.google.genai.Financas;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoApplication {
+public class FinancasApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(FinancasApplication.class, args);
 	}
 
 }

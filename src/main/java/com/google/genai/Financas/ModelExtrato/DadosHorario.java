@@ -1,4 +1,4 @@
-package com.google.genai.Model;
+package com.google.genai.Financas.ModelExtrato;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

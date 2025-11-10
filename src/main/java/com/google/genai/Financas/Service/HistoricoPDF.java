@@ -1,4 +1,4 @@
-package com.google.genai.UsandoAPI;
+package com.google.genai.Financas.Service;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
