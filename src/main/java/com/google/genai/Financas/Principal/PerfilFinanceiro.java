@@ -1,180 +1,88 @@
 package com.google.genai.Financas.Principal;
 
 import com.google.genai.Financas.TestandoAPIInvestimentos.BrapiClient;
-import com.google.genai.Financas.TestandoAPIInvestimentos.Investment;
 import com.google.genai.Financas.TestandoAPIInvestimentos.TwelveDataClient;
+import com.google.genai.Financas.TestandoAPIInvestimentos.Investment;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class PerfilFinanceiro {
-    Scanner scan = new Scanner(System.in);
-    BrapiClient brap = new BrapiClient();
-    TwelveDataClient twelve = new TwelveDataClient();
-    private int pontos;
 
+    public void pefilFinanceiro() {
+        Scanner scan = new Scanner(System.in);
+        int pontos = 0;
 
-    public int getPontos() {
-        return pontos;
+        System.out.println("=== SIMULADOR DE PERFIL DE INVESTIDOR ===");
+        System.out.println("Responda as perguntas abaixo:\n");
+
+        System.out.println("1️⃣ Qual é o seu conhecimento sobre investimentos?");
+        System.out.println("(a) Nenhum conhecimento");
+        System.out.println("(b) Conhecimento básico");
+        System.out.println("(c) Experiência avançada");
+        String resposta = scan.nextLine();
+        if (resposta.equalsIgnoreCase("a")) pontos += 1;
+        else if (resposta.equalsIgnoreCase("b")) pontos += 2;
+        else if (resposta.equalsIgnoreCase("c")) pontos += 3;
+
+        System.out.println("\n2️⃣ Como você reagiria a uma queda de 20% nos seus investimentos?");
+        System.out.println("(a) Venderia tudo");
+        System.out.println("(b) Esperaria recuperar");
+        System.out.println("(c) Compraria mais");
+        resposta = scan.nextLine();
+        if (resposta.equalsIgnoreCase("a")) pontos += 1;
+        else if (resposta.equalsIgnoreCase("b")) pontos += 2;
+        else if (resposta.equalsIgnoreCase("c")) pontos += 3;
+
+        System.out.println("\n3️⃣ Qual seu objetivo?");
+        System.out.println("(a) Segurança");
+        System.out.println("(b) Crescimento moderado");
+        System.out.println("(c) Crescimento agressivo");
+        resposta = scan.nextLine();
+        if (resposta.equalsIgnoreCase("a")) pontos += 1;
+        else if (resposta.equalsIgnoreCase("b")) pontos += 2;
+        else if (resposta.equalsIgnoreCase("c")) pontos += 3;
+
+        System.out.println("\n4️⃣ Por quanto tempo vai deixar o dinheiro investido?");
+        System.out.println("(a) Menos de 1 ano");
+        System.out.println("(b) 1 a 5 anos");
+        System.out.println("(c) Mais de 5 anos");
+        resposta = scan.nextLine();
+        if (resposta.equalsIgnoreCase("a")) pontos += 1;
+        else if (resposta.equalsIgnoreCase("b")) pontos += 2;
+        else if (resposta.equalsIgnoreCase("c")) pontos += 3;
+
+        System.out.println("\n5️⃣ Já investiu com risco de perda?");
+        System.out.println("(a) Nunca");
+        System.out.println("(b) Sim, pouco dinheiro");
+        System.out.println("(c) Sim, boa parte da carteira");
+        resposta = scan.nextLine();
+        if (resposta.equalsIgnoreCase("a")) pontos += 1;
+        else if (resposta.equalsIgnoreCase("b")) pontos += 2;
+        else if (resposta.equalsIgnoreCase("c")) pontos += 3;
+
+        String perfil = "";
+        if (pontos <= 7) perfil = "Conservador";
+        else if (pontos <= 11) perfil = "Intermediário";
+        else perfil = "Experiente";
+
+        System.out.println("\nSeu perfil de investidor é: " + perfil.toUpperCase());
+
+        mostrarInvestimentos(perfil);
+        scan.close();
     }
 
-    public void setPontos(int pontos) {
-        this.pontos = pontos;
-    }
+    private void mostrarInvestimentos(String perfil) {
+        BrapiClient brapi = new BrapiClient();
+        TwelveDataClient twelve = new TwelveDataClient();
 
-    public void pefilFinanceiro(){
-        System.out.println("Vamos analizar o seu perfil de investidor");
-        System.out.println("Qual é o seu conhecimento sobre investimentos?");
-        System.out.println("""
-                (a) Venderia tudo para evitar mais perdas
-                (b) Esperaria para ver se recupera
-                (c) Aproveitaria para comprar mais
-                """);
-            var escolha = scan.nextLine();
-        if (escolha.equalsIgnoreCase("a")){
-            pontos = (1 + pontos);
-        } else if (escolha.equalsIgnoreCase("b")) {
-            pontos = (2 + pontos);
-        }
-        else  if (escolha.equalsIgnoreCase("c")){
-            pontos = (3 + pontos);
-        }
-        else {
-            System.out.println("Opção inválida");
-        }
-        System.out.println("Como você reagiria a uma queda de 20% nos seus investimentos?");
-        System.out.println("""
-                (a) Venderia tudo para evitar mais perdas
-                (b) Esperaria para ver se recupera
-                (c) Aproveitaria para comprar mais
-                """);
-            escolha = scan.nextLine();
-        if (escolha.equalsIgnoreCase("a")){
-            pontos = (1 + pontos);
-        } else if (escolha.equalsIgnoreCase("b")) {
-            pontos = (2 + pontos);
-        }
-        else  if (escolha.equalsIgnoreCase("c")){
-            pontos = (3 + pontos);
-        }
-        else {
-            System.out.println("Opção inválida");
-        }
-        System.out.println("Qual é o seu objetivo com os investimentos?");
-        System.out.println("""
-                (a) Segurança e preservação do capital               
-                (b) Equilíbrio entre segurança e crescimento
-                (c) Crescimento agressivo do patrimônio
-                """);
-        escolha = scan.nextLine();
-        if (escolha.equalsIgnoreCase("a")){
-            pontos = (1 + pontos);
-        } else if (escolha.equalsIgnoreCase("b")) {
-            pontos = (2 + pontos);
-        }
-        else  if (escolha.equalsIgnoreCase("c")){
-            pontos = (3 + pontos);
-        }
-        else {
-            System.out.println("Opção inválida");
-        }
-        System.out.println("Por quanto tempo você pretende deixar o dinheiro investido?");
-        System.out.println("""
-                (a) Menos de 1 ano
-                (b) De 1 a 5 anos
-                (c) Mais de 5 anos
-                """);
-        escolha = scan.nextLine();
-        if (escolha.equalsIgnoreCase("a")){
-            pontos = (1 + pontos);
-        } else if (escolha.equalsIgnoreCase("b")) {
-            pontos = (2 + pontos);
-        }
-        else  if (escolha.equalsIgnoreCase("c")){
-            pontos = (3 + pontos);
-        }
-        else {
-            System.out.println("Opção inválida");
-        }
-        System.out.println("Você já investiu em produtos com risco de perda?");
-        System.out.println("""
-                (a) Nunca
-                (b) Sim, mas com pouco dinheiro
-                (c) Sim, com parte relevante da carteira
-                """);
-        escolha = scan.nextLine();
-        if (escolha.equalsIgnoreCase("a")){
-            pontos = (1 + pontos);
-        } else if (escolha.equalsIgnoreCase("b")) {
-            pontos = (2 + pontos);
-        }
-        else  if (escolha.equalsIgnoreCase("c")){
-            pontos = (3 + pontos);
-        }
-        else {
-            System.out.println("Opção inválida");
-        }
+        System.out.println("\n🇧🇷 AÇÕES NACIONAIS:");
+        for (Investment i : brapi.getInvestments()) System.out.println(i);
 
-        if (pontos >= 5 && pontos <= 7 ){
-            System.out.println("Seu perfil de investidor é conservador");
-            System.out.println("Aqui está alguns investimentos seguros para você:");
-            System.out.println("\n🇧🇷 AÇÕES NACIONAIS");
-            List<Investment> investimentos = new ArrayList<>();
-            investimentos.toString();
-            System.out.println(toString());
+        System.out.println("\n🌍 AÇÕES INTERNACIONAIS:");
+        for (Investment i : twelve.getStocks()) System.out.println(i);
 
-            System.out.println("\n🌍 AÇÕES INTERNACIONAIS:");
-        }
-
-        else if (pontos >= 8 && pontos <= 11){
-            System.out.println("Seu perfil de investidor é moderador");
-        } else if(pontos >= 12 && pontos <= 15) {
-            System.out.println("Seu perfil de investidor é agressivo");
-
-        }
+        System.out.println("\n💎 CRIPTOMOEDAS:");
+        for (Investment i : twelve.getCryptos()) System.out.println(i);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    String extratoLocal = ("C:/Users/Skillo-Danilo/Desktop/Extrato-01.pdf");
-//    String extrato = LeitorPDF.lerTextoDoPDF(extratoLocal);
-//    String respostaDoUsuario;
-//    String prompt = "";
-//
-//    String historicoLocal = "C:/Users/Skillo-Danilo/Desktop/perfil.pdf";
-//
-//    String resposta = ia.gerarResposta(prompt, historicoLocal);

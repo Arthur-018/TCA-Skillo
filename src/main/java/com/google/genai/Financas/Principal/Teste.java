@@ -1,15 +1,17 @@
 package com.google.genai.Financas.Principal;
 
-import org.apache.http.HttpException;
-
 import java.io.IOException;
 
 public class Teste {
-    public static void main(String[] args) throws HttpException, IOException {
-PerfilFinanceiro p = new PerfilFinanceiro();
-        System.out.println("perfil financeiro");
+    public static void main(String[] args) throws IOException {
+        System.out.println("==========================================");
+        System.out.println("=== 💹 SIMULADOR DE PERFIL FINANCEIRO ===");
+        System.out.println("==========================================\n");
 
-            p.pefilFinanceiro();
+        PerfilFinanceiro perfil = new PerfilFinanceiro();
+        perfil.pefilFinanceiro();
 
+        System.out.println("\n✅ Análise concluída!");
+        System.out.println("Obrigado por utilizar o simulador 💰");
     }
 }
