@@ -182,6 +182,18 @@ public class Main {
 
         String rendimentoMensalDisplay = rendimentoMensal != 0.0 ? String.format("%.2f%%", rendimentoMensal) : "Dados Históricos Indisponíveis";
 
+        // 🔗 LINKS REAIS DE INVESTIMENTO
+        String linkSeguro;
+        if (currency.equals("BRL")) {
+            // Links oficiais da B3 / Corretoras
+            linkSeguro = "https://www.btgpactualdigital.com/investimentos/acoes/" + inv.symbol().toLowerCase();
+        } else if (tipoAtivoGlobal(inv.symbol())) {
+            // Links oficiais da Nasdaq / NYSE via Google Finance
+            linkSeguro = "https://www.google.com/finance/quote/" + inv.symbol() + ":NASDAQ";
+        } else {
+            // Links de exchanges para Criptomoedas
+            linkSeguro = "https://www.binance.com/pt-BR/trade/" + inv.symbol() + "_USDT";
+        }
 
         System.out.printf("""
                 📊 %s - %s
@@ -196,6 +208,11 @@ public class Main {
                 """,
                 inv.symbol(), inv.name(),
                 openDisplay, highDisplay, priceDisplay,
-                riskDisplay, rendimentoDiario, rendimentoMensalDisplay, inv.url());
+                riskDisplay, rendimentoDiario, rendimentoMensalDisplay, linkSeguro);
+    }
+
+    // 🔍 Verifica se é uma ação internacional (NASDAQ/NYSE)
+    private static boolean tipoAtivoGlobal(String symbol) {
+        return symbol.matches("(?i)MSFT|AAPL|GOOGL|AMZN");
     }
 }

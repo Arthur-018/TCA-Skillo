@@ -9,68 +9,92 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Cliente da API Twelve Data (mercado internacional e criptoativos).
+ * Obtém informações reais de ações e criptomoedas e calcula risco com base na volatilidade.
+ */
 public class TwelveDataClient {
     private static final String API_KEY = "ec28f4ddd7a24232bdc2c8889722ed19";
     private static final String BASE_URL = "https://api.twelvedata.com/";
-
     private static final String INTERVAL_DAILY = "1day";
     private static final int OUTPUT_SIZE_MONTH = 25;
 
     private static final String[] STOCK_SYMBOLS = {"MSFT", "AAPL", "GOOGL", "AMZN"};
+    private static final String[] CRYPTO_SYMBOLS = {
+            "BTC/USD", "ETH/USD", "BNB/USD", "ADA/USD",
+            "SOL/USD", "DOT/USD", "DOGE/USD", "SHIB/USD",
+            "MATIC/USD", "LTC/USD"
+    };
 
-    private static final String[] CRYPTO_SYMBOLS = {"BTC/USD", "ETH/USD", "BNB/USD", "ADA/USD", "SOL/USD", "DOT/USD", "DOGE/USD", "SHIB/USD", "MATIC/USD", "LTC/USD"};
+    private static final long API_PAUSE_MS = 3000;
 
-    private static final long API_PAUSE_MS = 5000;
-
+    // ==========================================================
+    // 📈 MÉTODO: Ações internacionais
+    // ==========================================================
     public static List<Investment> getStocks() {
         List<Investment> list = new ArrayList<>();
 
         try {
-            for (int i = 0; i < STOCK_SYMBOLS.length; i++) {
-                String symbol = STOCK_SYMBOLS[i];
-
+            for (String symbol : STOCK_SYMBOLS) {
                 String quoteURL = BASE_URL + "quote?symbol=" + symbol + "&apikey=" + API_KEY;
                 JSONObject quoteResponse = new JSONObject(readURL(quoteURL, API_PAUSE_MS));
 
-                if (quoteResponse.optString("status").equals("error") || quoteResponse.optDouble("open", 0) == 0) continue;
+                if (quoteResponse.optString("status").equals("error") || quoteResponse.optDouble("open", 0) == 0)
+                    continue;
 
+                String name = quoteResponse.optString("name", symbol);
                 double open = quoteResponse.optDouble("open", 0);
                 double high = quoteResponse.optDouble("high", 0);
+                double low = quoteResponse.optDouble("low", high);
                 double price = quoteResponse.optDouble("close", 0);
-                String name = quoteResponse.optString("name", symbol);
+                double changePercent = quoteResponse.optDouble("percent_change", 0);
 
-                String seriesURL = BASE_URL + "time_series?symbol=" + symbol + "&interval=" + INTERVAL_DAILY + "&outputsize=" + OUTPUT_SIZE_MONTH + "&apikey=" + API_KEY;
+                // Histórico de 30 dias
+                String seriesURL = BASE_URL + "time_series?symbol=" + symbol + "&interval=" + INTERVAL_DAILY
+                        + "&outputsize=" + OUTPUT_SIZE_MONTH + "&apikey=" + API_KEY;
+
                 JSONObject seriesResponse = new JSONObject(readURL(seriesURL, API_PAUSE_MS));
-
-                double price30DaysAgo = 0.0;
                 JSONArray timeSeries = seriesResponse.optJSONArray("values");
+                double price30DaysAgo = 0.0;
 
                 if (timeSeries != null && timeSeries.length() >= OUTPUT_SIZE_MONTH) {
                     JSONObject historicalData = timeSeries.getJSONObject(timeSeries.length() - 1);
                     price30DaysAgo = historicalData.optDouble("close", 0);
                 }
 
-                float risk;
-                if (i < 1) {
-                    risk = (float) (Math.random() * 1.5 + 0.1);
-                } else if (i < 3) {
-                    risk = (float) (Math.random() * 1.0 + 2.0);
-                } else {
-                    risk = (float) (Math.random() * 2.0 + 3.1);
-                }
+                // 💡 Cálculo real de risco com base na volatilidade
+                float risk = (float) ((high - low) / (price == 0 ? 1 : price));
+                double volatility = Math.abs(changePercent) / 4;
 
-                String url = "https://twelvedata.com/quotes/" + symbol;
+                // 🔗 Link seguro (Yahoo Finance)
+                String url = "https://finance.yahoo.com/quote/" + symbol;
 
-                if (open > 0 && price > 0) {
-                    list.add(new Investment(symbol, name, risk, open, high, price, price30DaysAgo, url));
-                }
+                // Adiciona o investimento completo
+                list.add(new Investment(
+                        symbol,
+                        name,
+                        risk,
+                        open,
+                        high,
+                        low,
+                        price,
+                        changePercent,
+                        volatility,
+                        "TwelveData (Internacional)",
+                        "USD",
+                        url
+                ));
             }
         } catch (Exception e) {
             System.err.println("Erro ao buscar investimentos Twelve Data (Ações): " + e.getMessage());
         }
+
         return list;
     }
 
+    // ==========================================================
+    // 💰 MÉTODO: Criptomoedas
+    // ==========================================================
     public static List<Investment> getCryptos() {
         List<Investment> list = new ArrayList<>();
 
@@ -81,38 +105,61 @@ public class TwelveDataClient {
                 String quoteURL = BASE_URL + "quote?symbol=" + symbol + "&apikey=" + API_KEY;
                 JSONObject quoteResponse = new JSONObject(readURL(quoteURL, API_PAUSE_MS));
 
-                if (quoteResponse.optString("status").equals("error") || quoteResponse.optDouble("open", 0) == 0) continue;
+                if (quoteResponse.optString("status").equals("error") || quoteResponse.optDouble("open", 0) == 0)
+                    continue;
 
+                String name = quoteResponse.optString("name", cleanSymbol);
                 double open = quoteResponse.optDouble("open", 0);
                 double high = quoteResponse.optDouble("high", 0);
+                double low = quoteResponse.optDouble("low", high);
                 double price = quoteResponse.optDouble("close", 0);
-                String name = quoteResponse.optString("name", cleanSymbol);
+                double changePercent = quoteResponse.optDouble("percent_change", 0);
 
-                String seriesURL = BASE_URL + "time_series?symbol=" + symbol + "&interval=" + INTERVAL_DAILY + "&outputsize=" + OUTPUT_SIZE_MONTH + "&apikey=" + API_KEY;
+                // Histórico de 30 dias
+                String seriesURL = BASE_URL + "time_series?symbol=" + symbol + "&interval=" + INTERVAL_DAILY
+                        + "&outputsize=" + OUTPUT_SIZE_MONTH + "&apikey=" + API_KEY;
+
                 JSONObject seriesResponse = new JSONObject(readURL(seriesURL, API_PAUSE_MS));
-
-                double price30DaysAgo = 0.0;
                 JSONArray timeSeries = seriesResponse.optJSONArray("values");
+                double price30DaysAgo = 0.0;
 
                 if (timeSeries != null && timeSeries.length() >= OUTPUT_SIZE_MONTH) {
                     JSONObject historicalData = timeSeries.getJSONObject(timeSeries.length() - 1);
                     price30DaysAgo = historicalData.optDouble("close", 0);
                 }
 
-                float risk = (float) (Math.random() * 98.0 + 1.0);
+                // 💡 Risco real baseado na volatilidade (quanto mais varia, mais arriscado)
+                float risk = (float) ((high - low) / (price == 0 ? 1 : price));
+                double volatility = Math.abs(changePercent) / 3;
 
-                String url = "https://twelvedata.com/quotes/" + symbol;
+                // 🔗 Link oficial e seguro — pode usar CoinMarketCap ou Binance
+                String url = "https://coinmarketcap.com/currencies/" + cleanSymbol.toLowerCase() + "/";
 
-                if (open > 0 && price > 0) {
-                    list.add(new Investment(cleanSymbol, name, risk, open, high, price, price30DaysAgo, url));
-                }
+                list.add(new Investment(
+                        cleanSymbol,
+                        name,
+                        risk,
+                        open,
+                        high,
+                        low,
+                        price,
+                        changePercent,
+                        volatility,
+                        "TwelveData (Cripto)",
+                        "USD",
+                        url
+                ));
             }
         } catch (Exception e) {
             System.err.println("Erro ao buscar investimentos Twelve Data (Cripto): " + e.getMessage());
         }
+
         return list;
     }
 
+    // ==========================================================
+    // 🔍 Utilitário para leitura da API
+    // ==========================================================
     private static String readURL(String urlStr, long sleepTime) throws Exception {
         Thread.sleep(sleepTime);
 

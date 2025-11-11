@@ -119,10 +119,15 @@ public class PerfilFinanceiro {
         if (pontos >= 5 && pontos <= 7 ){
             System.out.println("Seu perfil de investidor é conservador");
             System.out.println("Aqui está alguns investimentos seguros para você:");
+            System.out.println("\n🇧🇷 AÇÕES NACIONAIS");
             List<Investment> investimentos = new ArrayList<>();
             investimentos.toString();
             System.out.println(toString());
-        } else if (pontos >= 8 && pontos <= 11){
+
+            System.out.println("\n🌍 AÇÕES INTERNACIONAIS:");
+        }
+
+        else if (pontos >= 8 && pontos <= 11){
             System.out.println("Seu perfil de investidor é moderador");
         } else if(pontos >= 12 && pontos <= 15) {
             System.out.println("Seu perfil de investidor é agressivo");
