@@ -32,6 +32,8 @@ public class BrapiClient extends ApiClient {
 
             list.add(new Investment(symbol, name, price, risk, open, high));
         }
+        List<Investment> teste = getInvestments();
+
 
         return list;
     }

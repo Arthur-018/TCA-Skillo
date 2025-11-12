@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class IAUtil {
     private static final String API_KEY = "AIzaSyDQwNQ3rC7lIylLeX4ir9ywErfnd_Q_UJk";
-    private static final Client client = Client.builder().apiKey(API_KEY).build();
+    public static final Client client = Client.builder().apiKey(API_KEY).build();
     public static String gerarResposta(String prompt) throws HttpException, IOException {
         GenerateContentResponse response =
                 client.models.generateContent(
