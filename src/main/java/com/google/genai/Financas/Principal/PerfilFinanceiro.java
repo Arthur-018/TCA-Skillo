@@ -1,33 +1,16 @@
 package com.google.genai.Financas.Principal;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.genai.Financas.TestandoAPIInvestimentos.BrapiClient;
 import com.google.genai.Financas.TestandoAPIInvestimentos.TwelveDataClient;
 import com.google.genai.Financas.TestandoAPIInvestimentos.Investment;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static com.google.genai.Financas.Service.IAUtil.client;
-
-
 public class PerfilFinanceiro {
-    Scanner scan = new Scanner(System.in);
-    BrapiClient client = new BrapiClient();
-   List<Investment> investimentos = client.getInvestments();
-
-
-
-
-
-
-
 
     public void pefilFinanceiro() {
-        for (Investment inv : investimentos){
-            System.out.println(inv);
-        }
+        Scanner scan = new Scanner(System.in);
         int pontos = 0;
 
         System.out.println("=== SIMULADOR DE PERFIL DE INVESTIDOR ===");
@@ -85,9 +68,36 @@ public class PerfilFinanceiro {
 
         System.out.println("\nSeu perfil de investidor é: " + perfil.toUpperCase());
 
-        List<Investment> investimentos = new ArrayList<>();
-
-
+        mostrarInvestimentos(perfil);
         scan.close();
+    }
+
+    private void mostrarInvestimentos(String perfil) {
+        BrapiClient brapi = new BrapiClient();
+        TwelveDataClient twelve = new TwelveDataClient();
+
+        System.out.println("\n🇧🇷 AÇÕES NACIONAIS:");
+        List<Investment> brapiInvestments = brapi.getInvestments();
+        if (brapiInvestments.isEmpty()) {
+            System.out.println("Nenhuma ação disponível no momento.");
+        } else {
+            for (Investment i : brapiInvestments) System.out.println(i);
+        }
+
+        System.out.println("\n🌍 AÇÕES INTERNACIONAIS:");
+        List<Investment> internationalStocks = twelve.getStocks();
+        if (internationalStocks.isEmpty()) {
+            System.out.println("Nenhuma ação disponível no momento.");
+        } else {
+            for (Investment i : internationalStocks) System.out.println(i);
+        }
+
+        System.out.println("\n💎 CRIPTOMOEDAS:");
+        List<Investment> cryptos = twelve.getCryptos();
+        if (cryptos.isEmpty()) {
+            System.out.println("Nenhuma criptomoeda disponível no momento.");
+        } else {
+            for (Investment i : cryptos) System.out.println(i);
+        }
     }
 }
