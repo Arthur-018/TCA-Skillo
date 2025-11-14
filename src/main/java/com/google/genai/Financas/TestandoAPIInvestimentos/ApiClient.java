@@ -1,25 +1,44 @@
 package com.google.genai.Financas.TestandoAPIInvestimentos;
 
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 public class ApiClient {
 
-    protected WebClient client;
+    protected final HttpClient client;
+    protected final String baseUrl;
 
     public ApiClient(String baseUrl) {
-        this.client = WebClient.builder().baseUrl(baseUrl).build();
+        this.client = HttpClient.newHttpClient();
+        this.baseUrl = baseUrl;
     }
 
     protected String get(String endpoint) {
+        URI uri = URI.create(baseUrl + endpoint);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(uri)
+                .GET()
+                .build();
+
         try {
-            return client.get()
-                    .uri(endpoint)
-                    .retrieve()
-                    .bodyToMono(String.class)
-                    .block();
-        } catch (WebClientResponseException e) {
-            System.out.println("Erro ao acessar a API: " + e.getMessage());
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                return response.body();
+            } else {
+                System.out.println("Erro na requisição. Status Code: " + response.statusCode() + " para URI: " + uri);
+                return "{}";
+            }
+        } catch (IOException e) {
+            System.out.println("Erro de I/O (conexão/rede) ao fazer a requisição: " + e.getMessage());
+            return "{}";
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.out.println("Requisição interrompida.");
             return "{}";
         } catch (Exception e) {
             System.out.println("Erro inesperado: " + e.getMessage());

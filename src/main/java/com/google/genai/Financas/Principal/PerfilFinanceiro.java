@@ -28,34 +28,25 @@ public class PerfilFinanceiro {
         System.out.println("\n2️⃣ Como você reagiria a uma queda de 20% nos seus investimentos?");
         System.out.println("(a) Venderia tudo");
         System.out.println("(b) Esperaria recuperar");
-        System.out.println("(c) Compraria mais");
+        System.out.println("(c) Aumentaria meus aportes");
         resposta = scan.nextLine();
         if (resposta.equalsIgnoreCase("a")) pontos += 1;
         else if (resposta.equalsIgnoreCase("b")) pontos += 2;
         else if (resposta.equalsIgnoreCase("c")) pontos += 3;
 
-        System.out.println("\n3️⃣ Qual seu objetivo?");
-        System.out.println("(a) Segurança");
+        System.out.println("\n3️⃣ Qual é o seu objetivo de investimento?");
+        System.out.println("(a) Preservação de capital");
         System.out.println("(b) Crescimento moderado");
-        System.out.println("(c) Crescimento agressivo");
+        System.out.println("(c) Alto crescimento (alto risco)");
         resposta = scan.nextLine();
         if (resposta.equalsIgnoreCase("a")) pontos += 1;
         else if (resposta.equalsIgnoreCase("b")) pontos += 2;
         else if (resposta.equalsIgnoreCase("c")) pontos += 3;
 
-        System.out.println("\n4️⃣ Por quanto tempo vai deixar o dinheiro investido?");
-        System.out.println("(a) Menos de 1 ano");
-        System.out.println("(b) 1 a 5 anos");
-        System.out.println("(c) Mais de 5 anos");
-        resposta = scan.nextLine();
-        if (resposta.equalsIgnoreCase("a")) pontos += 1;
-        else if (resposta.equalsIgnoreCase("b")) pontos += 2;
-        else if (resposta.equalsIgnoreCase("c")) pontos += 3;
-
-        System.out.println("\n5️⃣ Já investiu com risco de perda?");
-        System.out.println("(a) Nunca");
-        System.out.println("(b) Sim, pouco dinheiro");
-        System.out.println("(c) Sim, boa parte da carteira");
+        System.out.println("\n4️⃣ Qual horizonte de tempo você planeja manter seus investimentos?");
+        System.out.println("(a) Curto prazo (menos de 1 ano)");
+        System.out.println("(b) Médio prazo (1 a 5 anos)");
+        System.out.println("(c) Longo prazo (mais de 5 anos)");
         resposta = scan.nextLine();
         if (resposta.equalsIgnoreCase("a")) pontos += 1;
         else if (resposta.equalsIgnoreCase("b")) pontos += 2;
@@ -76,28 +67,56 @@ public class PerfilFinanceiro {
         BrapiClient brapi = new BrapiClient();
         TwelveDataClient twelve = new TwelveDataClient();
 
-        System.out.println("\n🇧🇷 AÇÕES NACIONAIS:");
+        System.out.println("\n🇧🇷 AÇÕES NACIONAIS (Recomendadas para " + perfil.toUpperCase() + "):");
         List<Investment> brapiInvestments = brapi.getInvestments();
-        if (brapiInvestments.isEmpty()) {
-            System.out.println("Nenhuma ação disponível no momento.");
+        List<Investment> filteredBrapi = filtrarInvestimentos(brapiInvestments, perfil);
+
+        if (filteredBrapi.isEmpty()) {
+            System.out.println("Nenhuma ação disponível para o perfil " + perfil.toUpperCase() + " que se enquadre nos critérios de risco.");
         } else {
-            for (Investment i : brapiInvestments) System.out.println(i);
+            for (Investment i : filteredBrapi) System.out.println(i);
         }
 
-        System.out.println("\n🌍 AÇÕES INTERNACIONAIS:");
+        System.out.println("\n🌍 AÇÕES INTERNACIONAIS (Recomendadas para " + perfil.toUpperCase() + "):");
         List<Investment> internationalStocks = twelve.getStocks();
-        if (internationalStocks.isEmpty()) {
-            System.out.println("Nenhuma ação disponível no momento.");
+        List<Investment> filteredInternational = filtrarInvestimentos(internationalStocks, perfil);
+
+        if (filteredInternational.isEmpty()) {
+            System.out.println("Nenhuma ação disponível para o perfil " + perfil.toUpperCase() + " que se enquadre nos critérios de risco.");
         } else {
-            for (Investment i : internationalStocks) System.out.println(i);
+            for (Investment i : filteredInternational) System.out.println(i);
         }
 
-        System.out.println("\n💎 CRIPTOMOEDAS:");
+        System.out.println("\n💎 CRIPTOMOEDAS (Recomendadas para " + perfil.toUpperCase() + "):");
         List<Investment> cryptos = twelve.getCryptos();
-        if (cryptos.isEmpty()) {
-            System.out.println("Nenhuma criptomoeda disponível no momento.");
+        List<Investment> filteredCryptos = filtrarInvestimentos(cryptos, perfil);
+
+        if (filteredCryptos.isEmpty()) {
+            System.out.println("Nenhuma criptomoeda disponível para o perfil " + perfil.toUpperCase() + " que se enquadre nos critérios de risco.");
         } else {
-            for (Investment i : cryptos) System.out.println(i);
+            for (Investment i : filteredCryptos) System.out.println(i);
         }
+    }
+
+
+    private List<Investment> filtrarInvestimentos(List<Investment> investimentos, String perfil) {
+        double maxRisk = Double.MAX_VALUE;
+        double minRisk = 0.0;
+
+        if (perfil.equalsIgnoreCase("Conservador")) {
+            maxRisk = 1.00;
+        } else if (perfil.equalsIgnoreCase("Intermediário")) {
+            minRisk = 1.01;
+            maxRisk = 3.00;
+        } else if (perfil.equalsIgnoreCase("Experiente")) {
+            minRisk = 3.01;
+        }
+
+        final double finalMinRisk = minRisk;
+        final double finalMaxRisk = maxRisk;
+
+        return investimentos.stream()
+                .filter(i -> i.risk() >= finalMinRisk && i.risk() <= finalMaxRisk)
+                .toList();
     }
 }
