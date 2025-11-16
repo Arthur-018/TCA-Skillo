@@ -1,9 +1,12 @@
+
+
 package com.google.genai.Financas.Principal;
 
 import com.google.genai.Financas.TestandoAPIInvestimentos.BrapiClient;
-import com.google.genai.Financas.TestandoAPIInvestimentos.TwelveDataClient;
 import com.google.genai.Financas.TestandoAPIInvestimentos.Investment;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -65,58 +68,64 @@ public class PerfilFinanceiro {
 
     private void mostrarInvestimentos(String perfil) {
         BrapiClient brapi = new BrapiClient();
-        TwelveDataClient twelve = new TwelveDataClient();
 
         System.out.println("\n🇧🇷 AÇÕES NACIONAIS (Recomendadas para " + perfil.toUpperCase() + "):");
-        List<Investment> brapiInvestments = brapi.getInvestments();
-        List<Investment> filteredBrapi = filtrarInvestimentos(brapiInvestments, perfil);
+        List<Investment> nationalStocks = brapi.getNationalStocks();
+        List<Investment> filteredBrapi = filtrarInvestimentos(nationalStocks, perfil);
 
         if (filteredBrapi.isEmpty()) {
-            System.out.println("Nenhuma ação disponível para o perfil " + perfil.toUpperCase() + " que se enquadre nos critérios de risco.");
+            System.out.println("Nenhuma ação nacional disponível para o perfil " + perfil.toUpperCase() + " que se enquadre nos critérios de risco.");
         } else {
             for (Investment i : filteredBrapi) System.out.println(i);
         }
 
         System.out.println("\n🌍 AÇÕES INTERNACIONAIS (Recomendadas para " + perfil.toUpperCase() + "):");
-        List<Investment> internationalStocks = twelve.getStocks();
+        List<Investment> internationalStocks = brapi.getInternationalStocks();
         List<Investment> filteredInternational = filtrarInvestimentos(internationalStocks, perfil);
 
         if (filteredInternational.isEmpty()) {
-            System.out.println("Nenhuma ação disponível para o perfil " + perfil.toUpperCase() + " que se enquadre nos critérios de risco.");
+            System.out.println("Nenhuma ação internacional disponível para o perfil " + perfil.toUpperCase() + " que se enquadre nos critérios de risco.");
         } else {
             for (Investment i : filteredInternational) System.out.println(i);
-        }
-
-        System.out.println("\n💎 CRIPTOMOEDAS (Recomendadas para " + perfil.toUpperCase() + "):");
-        List<Investment> cryptos = twelve.getCryptos();
-        List<Investment> filteredCryptos = filtrarInvestimentos(cryptos, perfil);
-
-        if (filteredCryptos.isEmpty()) {
-            System.out.println("Nenhuma criptomoeda disponível para o perfil " + perfil.toUpperCase() + " que se enquadre nos critérios de risco.");
-        } else {
-            for (Investment i : filteredCryptos) System.out.println(i);
         }
     }
 
 
     private List<Investment> filtrarInvestimentos(List<Investment> investimentos, String perfil) {
+        List<Investment> listaFiltrada = new ArrayList<>();
+
         double maxRisk = Double.MAX_VALUE;
         double minRisk = 0.0;
+        final double PRECO_MINIMO = 1.00;
 
         if (perfil.equalsIgnoreCase("Conservador")) {
-            maxRisk = 1.00;
+            maxRisk = 0.49;
         } else if (perfil.equalsIgnoreCase("Intermediário")) {
-            minRisk = 1.01;
-            maxRisk = 3.00;
+            minRisk = 0.50;
+            maxRisk = 0.99;
         } else if (perfil.equalsIgnoreCase("Experiente")) {
-            minRisk = 3.01;
+            minRisk = 1.00;
         }
 
         final double finalMinRisk = minRisk;
         final double finalMaxRisk = maxRisk;
 
-        return investimentos.stream()
-                .filter(i -> i.risk() >= finalMinRisk && i.risk() <= finalMaxRisk)
-                .toList();
+        for (Investment investimento : investimentos) {
+            if (investimento.risk() >= finalMinRisk &&
+                    investimento.risk() <= finalMaxRisk &&
+                    investimento.price() >= PRECO_MINIMO) {
+                listaFiltrada.add(investimento);
+            }
+        }
+
+        listaFiltrada.sort(Comparator.comparingDouble(Investment::risk));
+
+        List<Investment> listaFinal = new ArrayList<>();
+        int limite = 3;
+        for (int i = 0; i < listaFiltrada.size() && i < limite; i++) {
+            listaFinal.add(listaFiltrada.get(i));
+        }
+
+        return listaFinal;
     }
 }
