@@ -14,13 +14,20 @@ public class BrapiClient extends ApiClient {
     public BrapiClient() {
         super("https://brapi.dev/api");
     }
-
+    // Método para tentar simular um preço de abertura baseado no fechamento
     private double simularAbertura(double precoFechamento) {
+
+        // Gera uma variação bem pequena, entre 0.995 e 1.005.
         double variacao = 0.995 + (Math.random() * 0.01);
+
+        // Retorna o preço de abertura baseado no fechamento vezes essa variação
         return precoFechamento * variacao;
     }
-
+    // método que calcula um high garantido
     private double calcularHighGarantido(double precoAbertura, double precoFechamento, int index) {
+
+        // Os riscos são manuais.
+        // Os primeiros são risco baixo (0.25), depois risco médio (0.75) e depois risco maior (1.50)
         double[] targetRisks = {
                 0.25, 0.25, 0.25, 0.25, 0.25,
                 0.75, 0.75, 0.75, 0.75, 0.75,
