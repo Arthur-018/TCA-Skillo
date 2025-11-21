@@ -1,0 +1,62 @@
+/* =========================
+   Página Sobre Oak Finance
+========================= */
+
+.page-sobre main {
+  flex: 1;
+  padding: 140px 2em 3em;
+  max-width: 1000px;
+  margin: auto;
+  text-align: center;
+  line-height: 1.8;
+  color: var(--neutral-dark);
+}
+
+.page-sobre h1 {
+  font-size: 2.4em;
+  font-weight: 700;
+  color: var(--secondary);
+  margin-bottom: 1.2em;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.page-sobre p {
+  font-size: 1.1em;
+  margin-bottom: 1.5em;
+}
+
+.page-sobre strong {
+  color: var(--secondary);
+}
+
+/* Cards em colunas */
+.sobre-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* duas colunas */
+  gap: 1.5em;
+  margin-top: 2em;
+}
+
+.sobre-cards .card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2em;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sobre-cards .card h2 {
+  font-size: 1.6em;
+  color: var(--secondary);
+  margin-bottom: 0.8em;
+}
+
+.sobre-cards .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+.sobre-cards .card p {
+  font-size: 1em;
+  color: var(--neutral-dark);
+}

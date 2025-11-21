@@ -177,11 +177,11 @@ logo.addEventListener("click", () => {
     }
   }
 });
-
 // ===============================
-// Evento do Botão de Loguin
+// Evento do Botão de Login
 // ===============================
 btnLogin.addEventListener("click", () => {
-  window.location.href = "./loguin/loguin.html";
+  window.location.href = "./loguin/login.html";
   logado = true;
 });
+

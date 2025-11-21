@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Oak Finance - Investimentos</title>
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/investimentos.css">
+
+  <!-- Bibliotecas e Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/base.js" defer></script>
+  <script src="js/investimentos.js" defer></script>
+</head>
+<body>
+
+  <!-- =========================
+       Cabeçalho
+  ========================== -->
+  <header>
+    <div class="logo-container">
+      <img src="logoSemFundo.png" alt="Logo Oaksquare" class="logo">
+      <h1 class="company-name"><span>Oak Finance</span></h1>
+    </div>
+
+    <nav class="nav-container">
+      <ul class="nav-links">
+        <li><a href="principal.html" class="nav-link">Início</a></li>
+        <li><a href="planejamento.html" class="nav-link">Planejamento</a></li>
+        <li><a href="investimentos.html" class="nav-link">Investimentos</a></li>
+      </ul>
+
+      <!-- Ícone de usuário (desktop) -->
+      <div class="user-icon">
+        <img id="userAvatar" src="default-user.png" alt="Avatar do usuário">
+      </div>
+
+      <!-- Hamburguer (mobile) -->
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </nav>
+  </header>
+
+  <!-- =========================
+       Overlay e Sidebar
+  ========================== -->
+  <div id="overlay"></div>
+
+  <aside id="userSidebar">
+    <div class="close-btn">&times;</div>
+    <div class="user-info">
+      <h2>Usuário</h2>
+      <img id="profilePic" src="default-user.png" alt="Foto de perfil" class="profile-pic">
+      <p>Nome: Rafael</p>
+      <p>Email: exemplo@oakfinance.com</p>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="principal.html">Início</a>
+      <a href="planejamento.html">Planejamento</a>
+      <a href="investimentos.html">Investimentos</a>
+      <a href="ajuda.html">Ajuda</a>
+      <a href="#" id="openProfileSettings">Personalizar Perfil</a>
+      <a href="sobre.html">Sobre Oak Finance</a>
+    </nav>
+  </aside>
+
+  <!-- =========================
+       Popup de Personalizar Perfil
+  ========================== -->
+  <div id="profilePopup">
+    <div class="popup-header">
+      <h2>Personalizar Perfil</h2>
+      <span class="close-btn">&times;</span>
+    </div>
+
+    <!-- Trocar foto -->
+    <div class="profile-section">
+      <h3>Foto de Perfil</h3>
+
+      <!-- Preview simples -->
+      <div class="edit-frame">
+        <div class="edit-circle">
+          <img id="editPic" src="default-user.png" alt="Editar imagem">
+        </div>
+      </div>
+
+      <!-- Botão de upload -->
+      <label for="uploadPic" class="upload-btn">Escolher imagem (PNG)</label>
+      <input type="file" id="uploadPic" accept="image/png" hidden>
+
+      <!-- Bloco de enquadramento (apenas preencher/ajustar) -->
+      <div class="crop-wrapper">
+        <h4>Personalizar enquadramento</h4>
+        <div class="crop-options">
+          <label>
+            <input type="radio" name="fitOption" value="cover" checked>
+            <span>Preencher</span>
+          </label>
+          <label>
+            <input type="radio" name="fitOption" value="contain">
+            <span>Ajustar</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Botão aplicar -->
+      <button id="applyImage" class="apply-btn">Aplicar imagem</button>
+
+      <p>Ou escolha uma imagem pré-definida:</p>
+      <div class="preset-pics">
+        <img src="avatar1.png" alt="Avatar 1" class="preset">
+        <img src="avatar2.png" alt="Avatar 2" class="preset">
+        <img src="avatar3.png" alt="Avatar 3" class="preset">
+      </div>
+    </div>
+
+    <!-- Trocar tema -->
+    <div class="profile-section">
+      <h3>Tema do Site</h3>
+      <div class="theme-options">
+        <label>
+          <input type="radio" name="siteTheme" value="original" checked>
+          <span>Tema Original</span>
+        </label>
+        <label>
+          <input type="radio" name="siteTheme" value="dark">
+          <span>Tema Escuro</span>
+        </label>
+        <label>
+  <input type="radio" name="siteTheme" value="summer">
+  <span>Tema Verão</span>
+</label>
+
+      </div>
+    </div>
+  </div>
+  <!-- =========================
+       FAQ sobre investimentos
+  ========================== -->
+  <section class="faq">
+    <h1>FAQ - Investimentos</h1>
+
+    <div class="faq-item">
+      <button class="faq-question">O que são investimentos?</button>
+      <div class="faq-answer">
+        <p>Investimentos são aplicações de recursos com o objetivo de gerar retorno futuro. Podem variar de seguros a ações de alto risco.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">Quais os riscos envolvidos?</button>
+      <div class="faq-answer">
+        <p>Todo investimento possui risco. Alguns oferecem segurança quase total, enquanto outros podem gerar perdas significativas, mas também altos lucros.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">Como escolher o melhor investimento?</button>
+      <div class="faq-answer">
+        <p>Depende do seu perfil: iniciante, intermediário ou experiente. Avalie sua tolerância ao risco e seus objetivos financeiros.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       Gráfico simples
+  ========================== -->
+  <section class="graficos">
+    <h2>Visualização de Riscos e Retornos</h2>
+    <canvas id="graficoInvestimentos" width="600" height="400"></canvas>
+  </section>
+
+  <!-- =========================
+       Gráfico interativo por perfil
+  ========================== -->
+  <section class="graficos">
+    <h2>Perfis de Investidores - Áreas de Risco</h2>
+    <div class="perfil-selector">
+      <label>Selecione seu perfil:</label>
+      <select id="perfilSelect">
+        <option value="iniciantes">Iniciantes</option>
+        <option value="intermediarios">Intermediários</option>
+        <option value="experientes">Experientes</option>
+      </select>
+    </div>
+    <canvas id="graficoPerfis" width="600" height="400"></canvas>
+  </section>
+
+  <!-- =========================
+       Cards de perfil
+  ========================== -->
+  <section class="cards">
+    <div class="card">
+      <h2>Iniciantes</h2>
+      <p>Investimentos seguros, sem perdas. Ideal para quem está começando.</p>
+    </div>
+    <div class="card">
+      <h2>Intermediários</h2>
+      <p>Já investem e entendem um pouco do assunto. Buscam lucrar mais, aceitando até 50% de risco.</p>
+    </div>
+    <div class="card">
+      <h2>Experientes</h2>
+      <p>Conhecem profundamente o mercado. Aceitam alto risco de perda em troca de altos lucros.</p>
+    </div>
+  </section>
+
+  <!-- =========================
+       Rodapé
+  ========================== -->
+<footer>
+  <div class="footer-container">
+    <!-- Coluna 1: Sobre nós -->
+    <div class="footer-section">
+      <h3>Sobre nós</h3>
+      <p>A Oak Finance é uma plataforma dedicada a planejamento financeiro e investimentos inteligentes. Nosso objetivo é ajudar você a tomar decisões seguras e estratégicas.</p>
+      <ul>
+        <li><a href="ajuda.html">Ajuda</a></li>
+        <li><a href="sobre.html">Sobre a Oak Finance</a></li>
+      </ul>
+    </div>
+
+    <!-- Coluna 2: Links rápidos -->
+    <div class="footer-section">
+      <h3>Links rápidos</h3>
+      <ul>
+        <li><a href="principal.html">Início</a></li>
+        <li><a href="planejamento.html">Planejamento</a></li>
+        <li><a href="investimentos.html">Investimentos</a></li>
+      </ul>
+    </div>
+
+    <!-- Coluna 3: Contato -->
+    <div class="footer-section">
+      <h3>Contato</h3>
+      <p>Email: suporte@oakfinance.com</p>
+      <p>Telefone: (51) 99999-9999</p>
+      <p>Endereço: Porto Alegre - RS, Brasil</p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2025 Oak Finance. Todos os direitos reservados.</p>
+    <p>Desenvolvido por Rafael, Arthur, Moisés e Daniel</p>
+  </div>
+</footer>
+
+</body>
+</html>

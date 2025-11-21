@@ -1,0 +1,112 @@
+/* =========================
+   Página de Ajuda
+========================= */
+
+/* Wrapper principal */
+.page-ajuda {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Conteúdo principal */
+.page-ajuda main {
+  flex: 1;
+  padding: 140px 2em 3em; /* espaço extra para não ficar atrás do header fixo */
+  max-width: 900px;
+  margin: auto;
+  line-height: 1.8;
+  color: var(--neutral-dark);
+  background: var(--neutral-light);
+}
+
+/* Título principal */
+.page-ajuda h1 {
+  font-size: 2.5em;
+  font-weight: 700;
+  color: var(--secondary);
+  text-align: center;
+  margin-bottom: 1.5em;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* Subtítulos */
+.page-ajuda h2 {
+  font-size: 1.8em;
+  color: var(--secondary);
+  margin-top: 1.5em;
+  margin-bottom: 0.8em;
+}
+
+/* Blocos de texto */
+.page-ajuda p {
+  font-size: 1.1em;
+  margin-bottom: 1.2em;
+  background: #fff;
+  padding: 1.2em;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Destaques */
+.page-ajuda strong {
+  color: var(--secondary);
+}
+
+/* Assinatura */
+.page-ajuda .assinatura {
+  margin-top: 2.5em;
+  font-style: italic;
+  color: var(--secondary);
+  text-align: right;
+  font-weight: 600;
+}
+
+.page-ajuda .assinatura span {
+  display: block;
+  margin-top: 0.3em;
+  font-size: 0.9em;
+  color: var(--neutral-dark);
+}
+/* FAQ */
+.faq {
+  margin: 1.5em 0;
+}
+
+.faq-item {
+  border: 1px solid var(--secondary);
+  border-radius: 8px;
+  margin-bottom: 1em;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.faq-question {
+  width: 100%;
+  background: var(--secondary);
+  color: #fff;
+  text-align: left;
+  padding: 1em;
+  font-size: 1.1em;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.faq-question:hover {
+  background: var(--primary);
+  color: var(--accent-dark);
+}
+
+.faq-answer {
+  display: none;
+  padding: 1em;
+  background: #fff;
+  color: var(--neutral-dark);
+  line-height: 1.6;
+}
+
+.faq-item.active .faq-answer {
+  display: block;
+}
