@@ -98,9 +98,11 @@ if (labelTermos) {
   });
 }
 
-// Envio do cadastro (demonstração – somente validações front)
+// ==============================
+// Envio do cadastro (com backend)
+// ==============================
 if (registerForm) {
-  registerForm.addEventListener("submit", (e) => {
+  registerForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const nome  = nomeCadastroInput?.value.trim() || "";
@@ -124,26 +126,29 @@ if (registerForm) {
       return;
     }
 
-    mostrarMensagem(msgCadastro, "Cadastro realizado com sucesso! ✅", "sucesso");
-    // Futuro: enviar dados para backend via fetch()
+    const usuario = { nome, email, senha };
+
+    const resposta = await fetch("http://localhost:8080/usuarios/cadastrar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(usuario)
+    });
+
+    const texto = await resposta.text();
+    mostrarMensagem(msgCadastro, texto, "sucesso");
   });
 }
 
 // ==============================
-// Login funcional de demonstração
+// Login (com backend)
 // ==============================
-const DEMO_EMAIL = "oaksquareoriginal@gmail.com";
-const DEMO_SENHA = "Esquilo1234";
-
-// Preferir submit do form para cobrir Enter no teclado e clique no botão
 if (loginForm) {
-  loginForm.addEventListener("submit", (e) => {
+  loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const email = emailInput?.value.trim() || "";
     const senha = senhaInput?.value.trim() || "";
 
-    // Validações front básicas
     if (!validarEmail(email)) {
       mostrarMensagem(msgLogin, "Digite um e-mail válido.");
       return;
@@ -153,21 +158,27 @@ if (loginForm) {
       return;
     }
 
-    // Exceção de demonstração
-    if (email === DEMO_EMAIL && senha === DEMO_SENHA) {
-      mostrarMensagem(msgLogin, "Login realizado com sucesso! ✅", "sucesso");
-      // Redireciona para a página principal de demonstração
+    const usuario = { email, senha };
+
+    const resposta = await fetch("http://localhost:8080/usuarios/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(usuario)
+    });
+
+    const texto = await resposta.text();
+    if (texto.includes("Seja bem-vindo")) {
+      mostrarMensagem(msgLogin, texto, "sucesso");
       window.location.href = "principal/principal.html";
     } else {
-      mostrarMensagem(msgLogin, "Este email não está vinculado ao sistema.");
+      mostrarMensagem(msgLogin, texto);
     }
   });
 }
 
-// Também captura clique no botão (caso haja prevenção padrão diferente)
+// Também captura clique no botão
 if (btnLogin && loginForm) {
   btnLogin.addEventListener("click", (e) => {
-    // Deixa o submit central cuidar
     e.preventDefault();
     loginForm.dispatchEvent(new Event("submit", { bubbles: true }));
   });

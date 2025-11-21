@@ -181,7 +181,7 @@ logo.addEventListener("click", () => {
 // Evento do Botão de Login
 // ===============================
 btnLogin.addEventListener("click", () => {
-  window.location.href = "./loguin/login.html";
+  window.location.href = "./login/login.html";
   logado = true;
 });
 
