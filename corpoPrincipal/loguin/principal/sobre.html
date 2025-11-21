@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Sobre Oak Finance</title>
+
+  <!-- Estilos globais e específicos -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/sobre.css">
+
+  <!-- Scripts -->
+  <script src="js/base.js" defer></script>
+  <script src="js/sobre.js" defer></script>
+</head>
+<body>
+  <div class="page-wrapper"><!-- Wrapper para fixar rodapé -->
+
+    <!-- =========================
+         Cabeçalho
+    ========================== -->
+    <header>
+      <div class="logo-container">
+        <img src="logoSemFundo.png" alt="Logo Oak Finance" class="logo">
+        <h1 class="company-name"><span>Oak Finance</span></h1>
+      </div>
+
+      <nav class="nav-container">
+        <ul class="nav-links">
+          <li><a href="principal.html" class="nav-link">Início</a></li>
+          <li><a href="planejamento.html" class="nav-link">Planejamento</a></li>
+          <li><a href="investimentos.html" class="nav-link">Investimentos</a></li>
+          <li><a href="ajuda.html" class="nav-link">Ajuda</a></li>
+          <li><a href="sobre.html" class="nav-link active">Sobre</a></li>
+        </ul>
+
+        <!-- Ícone de usuário (desktop) -->
+        <div class="user-icon">
+          <img id="userAvatar" src="default-user.png" alt="Avatar do usuário">
+        </div>
+
+        <!-- Hamburguer (mobile) -->
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+    </header>
+
+    <!-- =========================
+         Overlay e Sidebar
+    ========================== -->
+    <div id="overlay"></div>
+
+    <aside id="userSidebar">
+      <div class="close-btn">&times;</div>
+      <div class="user-info">
+        <h2>Usuário</h2>
+        <img id="profilePic" src="default-user.png" alt="Foto de perfil" class="profile-pic">
+        <p>Nome: Rafael</p>
+        <p>Email: exemplo@oakfinance.com</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="principal.html">Início</a>
+        <a href="planejamento.html">Planejamento</a>
+        <a href="investimentos.html">Investimentos</a>
+        <a href="ajuda.html">Ajuda</a>
+        <a href="#" id="openProfileSettings">Personalizar Perfil</a>
+        <a href="sobre.html" class="active">Sobre Oak Finance</a>
+      </nav>
+    </aside>
+
+<!-- =========================
+     Popup de Personalizar Perfil
+========================= -->
+<div id="profilePopup">
+  <div class="popup-header">
+    <h2>Personalizar Perfil</h2>
+    <span class="close-btn">&times;</span>
+  </div>
+
+  <!-- Trocar foto -->
+  <div class="profile-section">
+    <h3>Foto de Perfil</h3>
+
+    <!-- Preview simples -->
+    <div class="edit-frame">
+      <div class="edit-circle">
+        <img id="editPic" src="default-user.png" alt="Editar imagem">
+      </div>
+    </div>
+
+    <!-- Botão de upload -->
+    <label for="uploadPic" class="upload-btn">Escolher imagem (PNG)</label>
+    <input type="file" id="uploadPic" accept="image/png" hidden>
+
+    <!-- Bloco de enquadramento -->
+    <div class="crop-wrapper">
+      <h4>Personalizar enquadramento</h4>
+      <div class="crop-options">
+        <label>
+          <input type="radio" name="fitOption" value="cover" checked>
+          <span>Preencher</span>
+        </label>
+        <label>
+          <input type="radio" name="fitOption" value="contain">
+          <span>Ajustar</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Botão aplicar -->
+    <button id="applyImage" class="apply-btn">Aplicar imagem</button>
+
+    <p>Ou escolha uma imagem pré-definida:</p>
+    <div class="preset-pics">
+      <img src="avatar1.png" alt="Avatar 1" class="preset">
+      <img src="avatar2.png" alt="Avatar 2" class="preset">
+      <img src="avatar3.png" alt="Avatar 3" class="preset">
+    </div>
+  </div>
+
+  <!-- Trocar tema -->
+  <div class="profile-section">
+    <h3>Tema do Site</h3>
+    <div class="theme-options">
+      <label>
+        <input type="radio" name="siteTheme" value="original" checked>
+        <span>Tema Original</span>
+      </label>
+      <label>
+        <input type="radio" name="siteTheme" value="dark">
+        <span>Tema Escuro</span>
+      </label>
+      <label>
+        <input type="radio" name="siteTheme" value="summer">
+        <span>Tema Verão</span>
+      </label>
+    </div>
+  </div>
+</div>
+
+<main class="page-sobre">
+  <h1>Sobre Oak Finance</h1>
+
+  <p>A Oak Finance é uma plataforma dedicada a oferecer soluções financeiras inteligentes.</p>
+
+  <!-- Cards informativos -->
+  <div class="sobre-cards">
+    <div class="card">
+      <h2>Missão</h2>
+      <p>Tornar o acesso a informações financeiras mais simples e confiável.</p>
+    </div>
+
+    <div class="card">
+      <h2>Valores</h2>
+      <p>Transparência, inovação e responsabilidade.</p>
+    </div>
+
+    <div class="card">
+      <h2>Nossa História</h2>
+      <p>Fundada em Porto Alegre, a Oak Finance nasceu com o objetivo de aproximar pessoas de suas metas financeiras.</p>
+    </div>
+
+    <div class="card">
+      <h2>Equipe</h2>
+      <p>Formada por especialistas em finanças e tecnologia, comprometidos em oferecer soluções inovadoras.</p>
+    </div>
+
+    <div class="card">
+      <h2>Sustentabilidade</h2>
+      <p>Nosso compromisso é com práticas responsáveis e apoio a projetos ambientais.</p>
+    </div>
+
+    <div class="card">
+      <h2>Futuro</h2>
+      <p>Expandir nossos serviços para mais pessoas, mantendo a qualidade e a confiança.</p>
+    </div>
+  </div>
+</main>
+
+
+
+    <!-- =========================
+         Rodapé
+    ========================== -->
+    <footer>
+      <div class="footer-container">
+        <div class="footer-section">
+          <h3>Sobre nós</h3>
+          <ul>
+            <li><a href="ajuda.html">Ajuda</a></li>
+            <li><a href="sobre.html" class="active">Sobre a Oak Finance</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Links rápidos</h3>
+          <ul>
+            <li><a href="principal.html">Início</a></li>
+            <li><a href="planejamento.html">Planejamento</a></li>
+            <li><a href="investimentos.html">Investimentos</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Contato</h3>
+          <p>Email: suporte@oakfinance.com</p>
+          <p>Telefone: (51) 99999-9999</p>
+          <p>Endereço: Porto Alegre - RS, Brasil</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 Oak Finance. Todos os direitos reservados.</p>
+        <p>Desenvolvido por Rafael, Arthur, Moisés e Daniel</p>
+      </div>
+    </footer>
+
+  </div><!-- fim page-wrapper -->
+  
+</body>
+</html>

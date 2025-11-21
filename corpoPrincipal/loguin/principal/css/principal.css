@@ -1,0 +1,353 @@
+/* =========================
+   Paleta Oak Finance
+========================= */
+:root {
+  --primary: #F2CA99;
+  --secondary: #A67A46;
+  --neutral-light: #F2E2C4;
+  --neutral-dark: #3B3C40;
+  --accent-dark: #0D0D0D;
+  --disabled: #d4bfa3;
+}
+
+/* =========================
+   Parallax Blocks
+========================= */
+.parallax {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.parallax .content {
+  background: rgba(0, 0, 0, 0.35);
+  padding: 2em;
+  border-radius: 12px;
+  backdrop-filter: blur(1px);
+  z-index: 10;
+}
+
+.parallax h1,
+.parallax h2 {
+  color: var(--neutral-light);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+.parallax::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.28) 30%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+}
+
+/* Fundos parallax */
+.bg1 { background-image: url("bg1.png"); background-color: var(--primary); }
+.bg2 { background-image: url("bg2.png"); background-color: var(--secondary); }
+.bg3 { background-image: url("bg3.png"); background-color: var(--primary); }
+.bg4 { background-image: url("bg4.png"); background-color: var(--secondary); }
+
+/* =========================
+   Bloco sólido
+========================= */
+.bloco-solido {
+  width: 100%;
+  background: var(--neutral-light);
+  color: var(--neutral-dark);
+  padding: 80px 20px;
+}
+
+.bloco-solido .container {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.bloco-solido h1,
+.bloco-solido h2 {
+  font-size: 2.2em;
+  font-weight: 700;
+  color: var(--secondary);
+  margin-bottom: 0.6em;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.bloco-solido p {
+  font-size: 1.2em;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto 1.5em auto;
+  color: var(--neutral-dark);
+}
+
+/* =========================
+   Cards Interativos Oak Finance
+========================= */
+.cards {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 2em;
+  margin-top: 2em;
+}
+
+.card {
+  position: relative;
+  cursor: pointer;
+  flex: 1 1 calc(33.333% - 2em);
+  min-width: 260px;
+  max-width: 300px;
+}
+
+/* Faces */
+.card .face {
+  width: 100%;
+  height: 200px;
+  transition: 0.5s;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Face 1 (imagem + título) */
+.card .face.face1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(100px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Fundos específicos */
+.card.planejamento .face.face1 {
+  background-image: url("planejamento.png");
+}
+
+.card.investimentos .face.face1 {
+  background-image: url("investimentos.png");
+}
+
+.card.consultoria .face.face1 {
+  background-image: url("consultoria.png");
+}
+
+/* Hover apenas movimento e leve clareamento do overlay */
+.card:hover .face.face1 {
+  transform: translateY(0);
+}
+
+/* Overlay escurecido */
+.card .face.face1::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+.card:hover .face.face1::before {
+  opacity: 0.2;
+}
+
+/* Conteúdo sobre a imagem/cor */
+.card .face.face1 .content {
+  position: relative;
+  z-index: 1;
+  opacity: 0.9;
+  transition: opacity 0.5s;
+  text-align: center;
+}
+
+.card:hover .face.face1 .content {
+  opacity: 1;
+}
+
+.card .face.face1 .content h3 {
+  margin: 10px 0 0;
+  color: var(--neutral-light);
+  font-size: 1.5em;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}
+
+
+
+/* Face 2 (descrição) */
+.card .face.face2 {
+  background: var(--secondary);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  transform: translateY(-100px);
+  border-radius: 12px;
+}
+
+.card:hover .face.face2 {
+  transform: translateY(0);
+}
+
+.card .face.face2 .content {
+  text-align: center;
+}
+
+.card .face.face2 .content p {
+  margin: 0;
+  font-size: 1.1em;
+  line-height: 1.5;
+  color: #fff; /* texto branco */
+}
+
+.card .face.face2 .content a {
+  margin-top: 15px;
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 900;
+  color: #fff;
+  padding: 6px 12px;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.card .face.face2 .content a:hover {
+  background: #fff;
+  color: var(--secondary);
+}
+/* =========================
+   Responsividade
+========================= */
+@media (max-width: 900px) {
+  .cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    flex: 1 1 100%;
+    max-width: 90%;
+  }
+}
+
+/* =========================
+   Botões
+========================= */
+button,
+.btn {
+  background: var(--secondary);
+  color: #fff;
+  border: none;
+  padding: 0.8em 1.6em;
+  border-radius: 28px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.1s ease;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+button:hover,
+.btn:hover {
+  background: var(--primary);
+  color: var(--accent-dark);
+}
+
+button:active,
+.btn:active {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  background: var(--disabled);
+  cursor: not-allowed;
+}
+
+/* =========================
+   Container padrão
+========================= */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* =========================
+   Seções de conteúdo
+========================= */
+section.content {
+  padding: 60px 20px;
+  background: var(--neutral-light);
+  color: var(--neutral-dark);
+}
+
+/* Pop-up de Kokies de Nozes */
+.cookie-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.cookie-content {
+  background: var(--neutral-light);
+  color: var(--neutral-dark);
+  padding: 2em;
+  border-radius: 12px;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.cookie-content h2 {
+  color: var(--secondary);
+  margin-bottom: 1em;
+}
+
+.cookie-content p {
+  margin-bottom: 1.5em;
+  font-size: 1.1em;
+  line-height: 1.5;
+}
+
+.cookie-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+}
+
+.cookie-buttons button {
+  background: var(--secondary);
+  color: #fff;
+  border: none;
+  padding: 0.8em 1.6em;
+  border-radius: 28px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.cookie-buttons button:hover {
+  background: var(--primary);
+  color: var(--accent-dark);
+}
